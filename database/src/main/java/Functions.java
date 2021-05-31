@@ -15,7 +15,7 @@ public class Functions {
        return movieDao.findMovieById(id);
     }
 
-    public static List<Movie> addMoviePackToDatabase(String title){
+    public static List<Movie> findMoviesByTitle(String title){
        return movieDao.findMoviesByTitle(title);
     }
 
