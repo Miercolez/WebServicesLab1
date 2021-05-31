@@ -8,9 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="core" />
         <module name="client" />
+        <module name="database" />
         <module name="utils" />
-        <module name="db" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="db" target="1.8" />
+      <module name="demo" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
