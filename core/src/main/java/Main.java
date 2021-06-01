@@ -50,9 +50,27 @@ public class Main {
     }
 
     private static void handleGET(Request request, OutputStream outputToClient) throws IOException {
-        String header = "HTTP/1.1 404 Not Found\r\nContent-length: 0\r\n\r\n";
+        byte[] data = new byte[0];
+        String header;
+        System.out.println(request.url);
+        if (request.url.equals("/getallmovies")) {
+            List<Movie> movies = Functions.getAllMovies();
+            Gson gson = new Gson();
+            String jsonStr = gson.toJson(movies);
+            System.out.println(jsonStr);
+
+            data = jsonStr.getBytes(StandardCharsets.UTF_8);
+            header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-length: " + data.length + "\r\n\r\n";
+
+        } else {
+            header = "HTTP/1.1 404 Not Found\r\nContent-length: 0\r\n\r\n";
+        }
+
         outputToClient.write(header.getBytes());
+        outputToClient.write(data);
         outputToClient.flush();
+
+
     }
 
 }
