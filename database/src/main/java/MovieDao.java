@@ -18,7 +18,11 @@ public class MovieDao {
         EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
-        em.persist(movies);
+
+        for (Movie movie : movies) {
+            em.persist(movie);
+        }
+
         em.getTransaction().commit();
 
         em.close();
