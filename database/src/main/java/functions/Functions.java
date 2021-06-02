@@ -12,6 +12,10 @@ public class Functions {
         movieDao.addMoviePackToDatabase();
     }
 
+    public static void addMovie(String movieTitle, int length, String director, int releaseYear){
+        movieDao.addMovie(movieTitle,length,director,releaseYear);
+    }
+
     public static List<Movie> getAllMovies() {
         return movieDao.getAllMovies();
     }
