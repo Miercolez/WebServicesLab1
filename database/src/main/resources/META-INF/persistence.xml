@@ -6,7 +6,7 @@
     <persistence-unit name="default">
 
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>Movie</class>
+        <class>entity.Movie</class>
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/movies"/>
             <property name="eclipselink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

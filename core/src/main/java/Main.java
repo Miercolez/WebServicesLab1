@@ -1,12 +1,11 @@
 
 import com.google.gson.Gson;
+import functions.Functions;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,7 +53,7 @@ public class Main {
         String header;
         System.out.println(request.url);
         if (request.url.equals("/getallmovies")) {
-            List<Movie> movies = Functions.getAllMovies();
+            List<entity.Movie> movies = Functions.getAllMovies();
             Gson gson = new Gson();
             String jsonStr = gson.toJson(movies);
             System.out.println(jsonStr);
