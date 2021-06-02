@@ -1,6 +1,10 @@
+package consumer;
 
 import com.google.gson.Gson;
 import functions.Functions;
+import utils.HTTPType;
+import utils.Request;
+import utils.Utils;
 
 import java.io.*;
 import java.net.ServerSocket;

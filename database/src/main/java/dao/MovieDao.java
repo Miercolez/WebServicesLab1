@@ -2,9 +2,10 @@ package dao;
 
 import entity.Movie;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
 import java.util.List;
 
 public class MovieDao {
@@ -34,7 +35,7 @@ public class MovieDao {
 
     public void addMovie(String movieTitle, int length, String director, int releaseYear) {
 
-        Movie movie = new Movie(movieTitle,length,director,releaseYear);
+        Movie movie = new Movie(movieTitle, length, director, releaseYear);
 
         EntityManager em = emf.createEntityManager();
 
@@ -103,7 +104,6 @@ public class MovieDao {
 
         return movies;
     }
-
 
 
 }
