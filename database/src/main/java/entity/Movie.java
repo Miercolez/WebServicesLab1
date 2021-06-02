@@ -1,3 +1,5 @@
+package entity;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -65,7 +67,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "entity.Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", length=" + length +

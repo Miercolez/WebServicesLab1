@@ -1,3 +1,8 @@
+package functions;
+
+import dao.MovieDao;
+import entity.Movie;
+
 import java.util.List;
 
 public class Functions {

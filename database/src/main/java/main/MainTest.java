@@ -1,11 +1,10 @@
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.ArrayList;
-import java.util.Arrays;
+package main;
+
 import java.util.List;
 
 import com.google.gson.Gson;
+import dao.MovieDao;
+import entity.Movie;
 
 public class MainTest {
     public static void main(String[] args) {
