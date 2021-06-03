@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static utils.Utils.handleRequest;
+
 
 public class Main {
 
@@ -56,6 +58,7 @@ public class Main {
         byte[] data = new byte[0];
         String header;
         System.out.println(request.url);
+
         if (request.url.equals("/getallmovies")) {
             List<entity.Movie> movies = Functions.getAllMovies();
             Gson gson = new Gson();
@@ -72,7 +75,6 @@ public class Main {
         outputToClient.write(header.getBytes());
         outputToClient.write(data);
         outputToClient.flush();
-
 
     }
 

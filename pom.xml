@@ -13,6 +13,7 @@
         <module>client</module>
         <module>utils</module>
         <module>database</module>
+        <module>spi</module>
     </modules>
 
     <properties>
