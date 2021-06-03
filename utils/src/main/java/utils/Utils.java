@@ -1,3 +1,8 @@
+package utils;
+
+import utils.HTTPType;
+import utils.Request;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +76,6 @@ public class Utils {
     }
 
     public String message() {
-        return "Hello from Utils";
+        return "Hello from utils.Utils";
     }
 }
