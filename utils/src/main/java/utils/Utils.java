@@ -22,7 +22,9 @@ public class Utils {
     }
 
     private static Map<String, String> parseUrlParams(String input) throws Exception {
+
         String[] words = input.split(" ");
+
         if (!words[1].contains("?")) throw new Exception();
 
         String[] url = words[1].split("\\?");
