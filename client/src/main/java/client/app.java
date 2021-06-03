@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static client.Client.getAllMovies;
-
 public class app extends JFrame {
     private JPanel newPanel = new JPanel();
     private JButton buttonShowAllMovies = new JButton("Show all movies");
@@ -47,7 +45,7 @@ public class app extends JFrame {
     }
 
     private void buttonActionPerformed(ActionEvent evt) {
-        getAllMovies();
+//        getAllMovies();
 
     }
 
