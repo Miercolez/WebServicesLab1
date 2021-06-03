@@ -9,6 +9,7 @@
         <module name="core" />
         <module name="client" />
         <module name="database" />
+        <module name="handleRequest" />
         <module name="spi" />
         <module name="utils" />
       </profile>

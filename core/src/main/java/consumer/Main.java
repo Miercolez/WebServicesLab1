@@ -2,6 +2,8 @@ package consumer;
 
 import com.google.gson.Gson;
 import functions.Functions;
+import spi.Spi;
+import spi.Url;
 import utils.HTTPType;
 import utils.Request;
 import utils.Utils;
@@ -11,6 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -40,12 +43,22 @@ public class Main {
             Request request = Utils.parseHttpRequest(inputFromClient.readLine());
             var outputToClient = client.getOutputStream();
 
+            ServiceLoader<Spi> requests = ServiceLoader.load(Spi.class);
+            System.out.println(request.url);
+
+            for (Spi classesSpiInteface : requests) {
+                Url annotaion = classesSpiInteface.getClass().getAnnotation(Url.class);
+                if (annotaion != null && annotaion.value().equals(request.url)) {
+                    System.out.println(classesSpiInteface.handleRequest(request));
+                }
+            }
+            /*
             switch (request.type) {
                 //case HEAD -> handelHEAD();
                 case GET -> handleGET(request, outputToClient);
                 //case POST -> handlePOST();
             }
-
+*/
             inputFromClient.close();
             outputToClient.close();
             client.close();
