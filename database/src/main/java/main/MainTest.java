@@ -21,7 +21,6 @@ public class MainTest {
         Gson gson = new Gson();
         String json = gson.toJson(movies);
         System.out.println(json);
-        // movieDao.addMoviePackToDatabase();
+//         movieDao.addMoviePackToDatabase();
     }
-
 }
