@@ -14,12 +14,22 @@ public class Utils {
         var request = new Request();
         request.type = parseHttpRequestType(input);
         request.url = parseUrl(input);
+        request.body = parseBody(input);
         try {
             request.urlParams = parseUrlParams(input);
         } catch (Exception e) {
         }
 
         return request;
+    }
+
+    private static String parseBody(String input) {
+
+        String[] words = input.split("\r\n\r\n");
+        if (words.length > 1)
+            return words[1];
+        else
+            return "";
     }
 
     private static Map<String, String> parseUrlParams(String input) throws Exception {
@@ -79,6 +89,7 @@ public class Utils {
         str = str.replace("%C3%A5", "å");
         return str;
     }
+
     public static byte[] addTwoByteArrays(byte[] headerByte, byte[] data) {
         byte[] twoByteArraysCombined = ByteBuffer.allocate(headerByte.length + data.length)
                 .put(headerByte)
