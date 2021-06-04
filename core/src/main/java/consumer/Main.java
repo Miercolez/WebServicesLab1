@@ -1,10 +1,7 @@
 package consumer;
 
-import com.google.gson.Gson;
-import functions.Functions;
 import spi.Spi;
 import spi.Url;
-import utils.HTTPType;
 import utils.Request;
 import utils.Utils;
 
@@ -12,12 +9,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static utils.Utils.handleRequest;
 
 
 public class Main {
@@ -41,24 +35,13 @@ public class Main {
         try {
             var inputFromClient = new BufferedReader(new InputStreamReader((client.getInputStream())));
             Request request = Utils.parseHttpRequest(inputFromClient.readLine());
+
+            System.out.println("Request url: " + request.url); //TODO <------ Ta bort
+
             var outputToClient = client.getOutputStream();
+            outputToClient.write(getResponsData(request));
+            outputToClient.flush();
 
-            ServiceLoader<Spi> requests = ServiceLoader.load(Spi.class);
-            System.out.println(request.url);
-
-            for (Spi classesSpiInteface : requests) {
-                Url annotaion = classesSpiInteface.getClass().getAnnotation(Url.class);
-                if (annotaion != null && annotaion.value().equals(request.url)) {
-                    System.out.println(classesSpiInteface.handleRequest(request));
-                }
-            }
-            /*
-            switch (request.type) {
-                //case HEAD -> handelHEAD();
-                case GET -> handleGET(request, outputToClient);
-                //case POST -> handlePOST();
-            }
-*/
             inputFromClient.close();
             outputToClient.close();
             client.close();
@@ -67,28 +50,21 @@ public class Main {
         }
     }
 
-    private static void handleGET(Request request, OutputStream outputToClient) throws IOException {
-        byte[] data = new byte[0];
-        String header;
-        System.out.println(request.url);
+    private static byte[] getResponsData(Request request) {
+        ServiceLoader<Spi> responses = ServiceLoader.load(Spi.class);
 
-        if (request.url.equals("/getallmovies")) {
-            List<entity.Movie> movies = Functions.getAllMovies();
-            Gson gson = new Gson();
-            String jsonStr = gson.toJson(movies);
-            System.out.println(jsonStr);
-
-            data = jsonStr.getBytes(StandardCharsets.UTF_8);
-            header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-length: " + data.length + "\r\n\r\n";
-
-        } else {
-            header = "HTTP/1.1 404 Not Found\r\nContent-length: 0\r\n\r\n";
+        byte[] responsData = httpResponse404();
+        for (Spi respons : responses) {
+            Url annotaion = respons.getClass().getAnnotation(Url.class);
+            if (annotaion != null && annotaion.value().equals(request.url)) {
+                responsData = respons.handleRequest(request);
+            }
         }
+        return responsData;
+    }
 
-        outputToClient.write(header.getBytes());
-        outputToClient.write(data);
-        outputToClient.flush();
-
+    private static byte[] httpResponse404() {
+        return "HTTP/1.1 404 Not Found\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
     }
 
 }

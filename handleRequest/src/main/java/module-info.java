@@ -1,5 +1,7 @@
 module handleRequest {
     requires spi;
     requires utils;
-    provides spi.Spi with plugin.HandelUrl;
+    requires database;
+    requires com.google.gson;
+    provides spi.Spi with plugin.GetAllMovies;
 }
