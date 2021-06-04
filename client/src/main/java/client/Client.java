@@ -36,7 +36,7 @@ public class Client {
                     break;
                 case 2:
                     String movieInformation = addMovie();
-                    talkToServer("POST /addmovie? HTTP/1.1\r\n\r\n", movieInformation);
+                    talkToServer("POST /addmovie HTTP/1.1\r\n\r\n", movieInformation);
                     break;
                 case 3:
                     System.out.println("Movie id: ");
@@ -70,16 +70,16 @@ public class Client {
 
     private static String addMovie() {
         System.out.println("Movie title: ");
-        String movieInfo = "movieTitle=" + sc.nextLine();
+        String movieInfo = "movieTitle:" + sc.nextLine();
 
         System.out.println("Movie length: ");
-        movieInfo += "&length=" + sc.nextLine();
+        movieInfo += ",length:" + sc.nextLine();
 
         System.out.println("Movie director: ");
-        movieInfo += "&director=" + sc.nextLine();
+        movieInfo += ",director:" + sc.nextLine();
 
         System.out.println("Release year: ");
-        movieInfo += "&releaseYear=" + sc.nextLine();
+        movieInfo += ",releaseYear:" + sc.nextLine();
 
         movieInfo = movieInfo.replace(" ", "+");
 
