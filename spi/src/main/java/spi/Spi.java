@@ -2,9 +2,11 @@ package spi;
 
 import utils.Request;
 
+import java.io.OutputStream;
+
 @Url
 public interface Spi {
 
-    String handleRequest(Request request);
+    byte[] handleRequest(Request request);
 
 }

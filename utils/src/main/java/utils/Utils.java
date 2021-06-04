@@ -50,6 +50,8 @@ public class Utils {
         return url;
     }
 
+
+    //TODO Används ej ta bort
     private static HTTPType parseHttpRequestType(String input) {
         if (input.startsWith("G"))
             return HTTPType.GET;
@@ -75,9 +77,5 @@ public class Utils {
         str = str.replace("%20", " ");
         str = str.replace("%C3%A5", "å");
         return str;
-    }
-
-    public String message() {
-        return "Hello from utils.Utils";
     }
 }
