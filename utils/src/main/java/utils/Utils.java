@@ -3,6 +3,7 @@ package utils;
 import utils.HTTPType;
 import utils.Request;
 
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,5 +78,12 @@ public class Utils {
         str = str.replace("%20", " ");
         str = str.replace("%C3%A5", "å");
         return str;
+    }
+    public static byte[] addTwoByteArrays(byte[] headerByte, byte[] data) {
+        byte[] twoByteArraysCombined = ByteBuffer.allocate(headerByte.length + data.length)
+                .put(headerByte)
+                .put(data)
+                .array();
+        return twoByteArraysCombined;
     }
 }
