@@ -7,5 +7,6 @@ public class Request {
     public HTTPType type;
     public String url;
     public Map<String, String> urlParams = new HashMap<>();
+    public String body;
 }
 
