@@ -39,7 +39,7 @@ public class Main {
             System.out.println("Request url: " + request.url); //TODO <------ Ta bort
 
             var outputToClient = client.getOutputStream();
-            outputToClient.write(getResponsData(request));
+            outputToClient.write(getResponseData(request));
             outputToClient.flush();
 
             inputFromClient.close();
@@ -50,17 +50,17 @@ public class Main {
         }
     }
 
-    private static byte[] getResponsData(Request request) {
+    private static byte[] getResponseData(Request request) {
         ServiceLoader<Spi> responses = ServiceLoader.load(Spi.class);
 
-        byte[] responsData = httpResponse404();
-        for (Spi respons : responses) {
-            Url annotaion = respons.getClass().getAnnotation(Url.class);
-            if (annotaion != null && annotaion.value().equals(request.url)) {
-                responsData = respons.handleRequest(request);
+        byte[] responseData = httpResponse404();
+        for (Spi response : responses) {
+            Url annotation = response.getClass().getAnnotation(Url.class);
+            if (annotation != null && annotation.value().equals(request.url)) {
+                responseData = response.handleRequest(request);
             }
         }
-        return responsData;
+        return responseData;
     }
 
     private static byte[] httpResponse404() {

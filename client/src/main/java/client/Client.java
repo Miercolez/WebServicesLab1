@@ -32,36 +32,36 @@ public class Client {
                     menuChoice = false;
                     break;
                 case 1:
-                    talkToServer("GET /getallmovies HTTP/1.1\r\n");
+                    talkToServer("GET /getallmovies HTTP/1.1\r\n","");
                     break;
                 case 2:
                     String movieInformation = addMovie();
-                    talkToServer("POST /addmovie?" + movieInformation + " HTTP/1.1\r\n");
+                    talkToServer("POST /addmovie? HTTP/1.1\r\n\r\n", movieInformation);
                     break;
                 case 3:
                     System.out.println("Movie id: ");
                     String movieId = sc.nextLine();
-                    talkToServer("GET /findMovieById" + movieId + " HTTP/1.1\r\n");
+                    talkToServer("GET /findMovieById HTTP/1.1\r\n\r\n", movieId);
                     break;
                 case 4:
                     System.out.println("Movie title: ");
                     String movieTitle = sc.nextLine();
-                    talkToServer("GET /findMovieByTitle" + movieTitle + " HTTP/1.1\r\n");
+                    talkToServer("GET /findMovieByTitle HTTP/1.1\r\n\r\n", movieTitle);
                     break;
                 case 5:
                     System.out.println("Movie length: ");
                     String movieLength = sc.nextLine();
-                    talkToServer("GET /findMovieByLength" + movieLength + " HTTP/1.1\r\n");
+                    talkToServer("GET /findMovieByLength HTTP/1.1\r\n\r\n", movieLength);
                     break;
                 case 6:
                     System.out.println("Director: ");
                     String director = sc.nextLine();
-                    talkToServer("GET /findMovieByDirector" + director + " HTTP/1.1\r\n");
+                    talkToServer("GET /findMovieByDirector HTTP/1.1\r\n", director);
                     break;
                 case 7:
                     System.out.println("Movie release year: ");
                     String movieReleaseYear = sc.nextLine();
-                    talkToServer("GET /findMovieByReleaseYear" + movieReleaseYear + " HTTP/1.1\r\n");
+                    talkToServer("GET /findMovieByReleaseYear HTTP/1.1\r\n", movieReleaseYear);
                     break;
             }
         }
@@ -87,13 +87,13 @@ public class Client {
     }
 
 
-    public static void talkToServer(String header) {
+    public static void talkToServer(String header, String body) {
         try {
             Socket socket = new Socket("localhost", 80);
 
             var output = new PrintWriter(socket.getOutputStream());
             output.print(header);
-            output.print("Host: localhost\r\n");
+            output.print(body);
             output.print("\r\n");
             output.flush();
 
