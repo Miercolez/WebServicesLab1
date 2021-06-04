@@ -5,6 +5,7 @@ import entity.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -68,11 +69,11 @@ public class MovieDao {
     public Movie findMovieById(Long id) {
         EntityManager em = emf.createEntityManager();
 
-        Movie movies = em.createQuery("SELECT m FROM Movie m WHERE m.id=:id", Movie.class).setParameter("id", id).getSingleResult();
+        Movie movie = em.find(Movie.class, id);
 
         em.close();
 
-        return movies;
+        return movie;
     }
 
     public List<Movie> findMoviesByYear(int releaseYear) {
