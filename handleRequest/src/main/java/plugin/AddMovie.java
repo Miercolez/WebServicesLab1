@@ -15,11 +15,6 @@ public class AddMovie implements Spi {
     public byte[] handleRequest(Request request) {
         Gson gson = new Gson();
         Movie movie = gson.fromJson(request.body, Movie.class);
-        System.out.println("testar" + movie);
-
-//        String[] movieInfo = (request.body).split("\\+");
-//        String movieTitle = movieInfo[0];
-//        Functions.addMovie(movieTitle, );
 
         return new byte[0];
     }

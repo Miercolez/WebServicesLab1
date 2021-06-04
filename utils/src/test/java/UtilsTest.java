@@ -119,8 +119,16 @@ public class UtilsTest {
         assertThat(request.type).isEqualTo(HTTPType.POST);
         assertThat(request.url).isEqualTo("/upload");
         assertThat(request.urlParams).isEmpty();
+
 //        assertThat(request.contentType).isEqualTo("application/json");
 //        assertThat(request.contentLength).isEqualTo(25);
-//        assertThat(request.content).isEqualTo("{\"name\":\"hej\",\"title\":12}");
+        assertThat(request.body).isEqualTo("{\"name\":\"hej\",\"title\":12}");
     }
+
+    @Test
+    void requestPostWithJsonInBody2() {
+        Request request = Utils.parseHttpRequest("POST /upload HTTP/1.1\r\n\r\n{\"name\":\"hej\",\"title\":12}");
+        assertThat(request.body).isEqualTo("{\"name\":\"hej\",\"title\":12}");
+    }
+
 }

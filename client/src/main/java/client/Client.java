@@ -70,7 +70,7 @@ public class Client {
 
     private static String addMovie() {
         System.out.println("Movie title: ");
-        String movieInfo = "movieTitle:" + sc.nextLine();
+        String movieInfo = "{movieTitle:" + sc.nextLine();
 
         System.out.println("Movie length: ");
         movieInfo += ",length:" + sc.nextLine();
@@ -79,9 +79,9 @@ public class Client {
         movieInfo += ",director:" + sc.nextLine();
 
         System.out.println("Release year: ");
-        movieInfo += ",releaseYear:" + sc.nextLine();
+        movieInfo += ",releaseYear:" + sc.nextLine() + "}";
 
-        movieInfo = movieInfo.replace(" ", "+");
+
 
         return movieInfo;
     }

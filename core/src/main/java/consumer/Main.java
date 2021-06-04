@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Main {
@@ -34,7 +36,14 @@ public class Main {
     private static void handleConnection(Socket client) {
         try {
             var inputFromClient = new BufferedReader(new InputStreamReader((client.getInputStream())));
-            Request request = Utils.parseHttpRequest(inputFromClient.readLine());
+
+            String stringInputFromClient = inputFromClient.readLine();
+            inputFromClient.readLine();
+            stringInputFromClient += "\r\n\r\n";
+            stringInputFromClient += inputFromClient.readLine();
+
+
+            Request request = Utils.parseHttpRequest(stringInputFromClient);
 
             System.out.println("Request url: " + request.url); //TODO <------ Ta bort
 
