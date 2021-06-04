@@ -24,7 +24,6 @@ public class Utils {
     }
 
     private static String parseBody(String input) {
-
         String[] words = input.split("\r\n\r\n");
         if (words.length > 1){
             return words[1];

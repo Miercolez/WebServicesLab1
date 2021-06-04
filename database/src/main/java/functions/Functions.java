@@ -12,8 +12,8 @@ public class Functions {
         movieDao.addMoviePackToDatabase();
     }
 
-    public static void addMovie(String movieTitle, int length, String director, int releaseYear){
-        movieDao.addMovie(movieTitle,length,director,releaseYear);
+    public static void addMovie(Movie movie){
+        movieDao.addMovie(movie);
     }
 
     public static List<Movie> getAllMovies() {

@@ -34,11 +34,8 @@ public class MovieDao {
         em.close();
     }
 
-    public void addMovie(String movieTitle, int length, String director, int releaseYear) {
-
-        Movie movie = new Movie(movieTitle, length, director, releaseYear);
-
-        EntityManager em = emf.createEntityManager();
+    public void addMovie(Movie movie) {
+                EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
         em.persist(movie);

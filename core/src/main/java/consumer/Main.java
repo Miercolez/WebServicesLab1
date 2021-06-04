@@ -22,7 +22,7 @@ public class Main {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        try (ServerSocket serverSocket = new ServerSocket(81)) {
+        try (ServerSocket serverSocket = new ServerSocket(80)) {
             while (true) {
                 Socket client = serverSocket.accept();
                 System.out.println("Connection from : " + client.getInetAddress());
@@ -36,12 +36,23 @@ public class Main {
     private static void handleConnection(Socket client) {
         try {
             var inputFromClient = new BufferedReader(new InputStreamReader((client.getInputStream())));
+            String stringInputFromClient = null;
 
-            String stringInputFromClient = inputFromClient.readLine();
-            inputFromClient.readLine();
-            stringInputFromClient += "\r\n\r\n";
-            stringInputFromClient += inputFromClient.readLine();
+            while (true) {
+                var line = inputFromClient.readLine();
+                if (line == null) {
+                    break;
+                }else{
+                    stringInputFromClient += line+"\r\n";
+                }
+            }
 
+
+//            String stringInputFromClient = inputFromClient.readLine();
+//            inputFromClient.readLine();
+//            stringInputFromClient += "\r\n\r\n";
+//            if(!inputFromClient.readLine().isEmpty())
+//            stringInputFromClient += inputFromClient.readLine();
 
             Request request = Utils.parseHttpRequest(stringInputFromClient);
 
