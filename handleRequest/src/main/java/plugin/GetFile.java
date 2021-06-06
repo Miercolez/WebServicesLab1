@@ -14,19 +14,22 @@ import java.nio.file.Path;
 
 import static utils.Utils.addTwoByteArrays;
 
-@Url("/getimage")
-public class GetImage implements Spi {
+@Url("/getfile")
+public class GetFile implements Spi {
     @Override
     public byte[] handleRequest(Request request) {
         byte[] data = new byte[0];
         String header = "";
-        String image = request.urlParams.get("image");
-
-        if (image == null) {
+        File file;
+        if (request.urlParams.containsKey("image")) {
+            String image = request.urlParams.get("image");
+            file = Path.of("core", "src", "main", "resources", "images", image).toFile();
+        } else if (request.urlParams.containsKey("file")) {
+            String requestedFile = request.urlParams.get("file");
+            file = Path.of("core", "src", "main", "resources", "files", requestedFile).toFile();
+        } else {
             return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
         }
-
-        File file = Path.of("core", "src", "main", "resources", "images", image).toFile();
 
         if (!(file.exists() && !file.isDirectory())) {
 
