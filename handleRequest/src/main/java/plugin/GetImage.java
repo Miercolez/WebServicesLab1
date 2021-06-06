@@ -26,7 +26,7 @@ public class GetImage implements Spi {
             return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
         }
 
-        File file = Path.of("handleRequest", "src", "main", "resources", "images", image).toFile();
+        File file = Path.of("core", "src", "main", "resources", "images", image).toFile();
 
         if (!(file.exists() && !file.isDirectory())) {
 
