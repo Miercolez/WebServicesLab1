@@ -3,36 +3,76 @@ package utils;
 import utils.HTTPType;
 import utils.Request;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
 
-    public static Request parseHttpRequest(String input) {
-
+    public static Request parseHttpRequest(InputStream inputStream) throws IOException {
         var request = new Request();
-        request.type = parseHttpRequestType(input);
-        request.url = parseUrl(input);
-        request.body = parseBody(input);
+        String head = readHead(inputStream);
+
+        request.contentLength = parseContentLength(head);
+        request.type = parseHttpRequestType(head);
+        request.url = parseUrl(head);
+
+        request.body = readBody(inputStream, request.contentLength);
+
         try {
-            request.urlParams = parseUrlParams(input);
+            request.urlParams = parseUrlParams(head);
         } catch (Exception e) {
         }
 
         return request;
     }
 
-    private static String parseBody(String input) {
-
-        String[] words = input.split("\r\n\r\n");
-        if (words.length > 1){
-            return words[1];
+    private static String readHead(InputStream inputStream) throws IOException {
+        String head = "";
+        while (true) {
+            String line = readLine(inputStream);
+            head += line;
+            if (line.isBlank()) {
+                break;
+            }
         }
-        else{
-            return "";
-        }
+        return head;
     }
+
+    private static String readBody(InputStream inputStream, int contentLength) throws IOException {
+        byte[] byteBody = inputStream.readNBytes(contentLength);
+        String body = new String(byteBody, StandardCharsets.UTF_8);
+        return body;
+    }
+
+    private static int parseContentLength(String head) {
+        int contentLength = 0;
+        for (String str : head.split("\\r\\n")) {
+            if (str.contains("Content-Length:")) {
+                String value = str.split(" ")[1];
+                contentLength = Integer.parseInt(value.trim());
+            }
+        }
+        return contentLength;
+    }
+
+    private static String readLine(InputStream inputFromClient) throws IOException {
+        String line = "";
+        while (true) {
+            var b = inputFromClient.readNBytes(1);
+            String str = new String(b, StandardCharsets.UTF_8);
+            line += str;
+            if (line.contains("\r\n")) {
+                break;
+            }
+        }
+        return line;
+    }
+
 
     private static Map<String, String> parseUrlParams(String input) throws Exception {
 
@@ -86,10 +126,20 @@ public class Utils {
     }
 
     private static String replaceUrlEncoding(String str) {
+    /*encoded
+        try {
+            String decoded = URLDecoder.decode(encoded, StandardCharsets.UTF_8);
+            return decoded;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return encoded;
+   */
         str = str.replace('+', ' ');
         str = str.replace("%20", " ");
         str = str.replace("%C3%A5", "å");
         return str;
+
     }
 
     public static byte[] addTwoByteArrays(byte[] headerByte, byte[] data) {
