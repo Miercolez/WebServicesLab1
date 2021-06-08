@@ -19,7 +19,7 @@ public class Main {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        try (ServerSocket serverSocket = new ServerSocket(80)) {
+        try (ServerSocket serverSocket = new ServerSocket(5051)) {
             while (true) {
                 Socket client = serverSocket.accept();
                 System.out.println("Connection from : " + client.getInetAddress());

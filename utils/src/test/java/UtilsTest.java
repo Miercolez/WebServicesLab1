@@ -111,10 +111,10 @@ public class UtilsTest {
                 User-Agent: insomnia/2021.3.0\r\n \
                 Cookie: JSESSIONID=490B71AEC6F7B91E31BBDB1037F53B26\r\n \
                 Content-Type: application/json\r\n \
-*/  //                         Accept: */*\r\n \
- /*               Content-Length: 25\r\n \
-                \r\n""",
-                "{\"name}\":\"hej\",\"title\":12}");
+                Accept: */*\r\n \
+                Content-Length: 25\r\n\r\n\
+                {"name":"hej","title":12}\
+                """);
         assertThat(request.type).isEqualTo(HTTPType.POST);
         assertThat(request.url).isEqualTo("/upload");
         assertThat(request.urlParams).isEmpty();
