@@ -90,7 +90,7 @@ public class Client {
 
     public static void talkToServer(String header, String body) {
         try {
-            Socket socket = new Socket("localhost", 5050);
+            Socket socket = new Socket("localhost", 5051);
 
             var output = new PrintWriter(socket.getOutputStream());
             output.print(header);

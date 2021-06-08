@@ -11,7 +11,6 @@ public class MainTest {
     public static void main(String[] args) {
         MovieDao movieDao = new MovieDao();
 
-
-        Functions.addMovie("hejsan",123,"hejsa",2304);
+//        Functions.addMovie("hejsan",123,"hejsa",2304);
     }
 }
