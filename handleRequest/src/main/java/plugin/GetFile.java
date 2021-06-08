@@ -23,10 +23,10 @@ public class GetFile implements Spi {
         File file;
         if (request.urlParams.containsKey("image")) {
             String image = request.urlParams.get("image");
-            file = Path.of("core", "src", "main", "resources", "images", image).toFile();
+            file = Path.of("/web/images", image).toFile();
         } else if (request.urlParams.containsKey("file")) {
             String requestedFile = request.urlParams.get("file");
-            file = Path.of("core", "src", "main", "resources", "files", requestedFile).toFile();
+            file = Path.of("/web/files", requestedFile).toFile();
         } else {
             return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
         }
