@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -32,11 +33,12 @@ public class Client {
                     menuChoice = false;
                     break;
                 case 1:
-                    talkToServer("GET /getallmovies HTTP/1.1\r\n","");
+                    talkToServer("GET /getallmovies HTTP/1.1\r\n", "");
                     break;
                 case 2:
                     String movieInformation = addMovie();
-                    talkToServer("POST /addmovie HTTP/1.1\r\n\r\n", movieInformation);
+                    int contentLength = movieInformation.getBytes(StandardCharsets.UTF_8).length;
+                    talkToServer("POST /addmovie HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + contentLength + "\r\n\r\n", movieInformation);
                     break;
                 case 3:
                     System.out.println("Movie id: ");
@@ -70,7 +72,7 @@ public class Client {
 
     private static String addMovie() {
         System.out.println("Movie title: ");
-        String movieInfo = "{movieTitle:" + sc.nextLine();
+        String movieInfo = "{title:" + sc.nextLine();
 
         System.out.println("Movie length: ");
         movieInfo += ",length:" + sc.nextLine();
@@ -80,7 +82,6 @@ public class Client {
 
         System.out.println("Release year: ");
         movieInfo += ",releaseYear:" + sc.nextLine() + "}";
-
 
 
         return movieInfo;
