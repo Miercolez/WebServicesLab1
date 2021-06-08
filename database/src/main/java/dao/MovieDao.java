@@ -35,7 +35,8 @@ public class MovieDao {
     }
 
     public void addMovie(Movie movie) {
-                EntityManager em = emf.createEntityManager();
+
+        EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
         em.persist(movie);

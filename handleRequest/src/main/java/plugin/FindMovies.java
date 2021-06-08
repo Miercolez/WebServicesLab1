@@ -9,27 +9,37 @@ import utils.HTTPType;
 import utils.Request;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import static utils.Utils.addTwoByteArrays;
 
-@Url("/findmoviebytitle")
-public class FindMovieByDirector implements Spi {
+@Url("/findmovie")
+public class FindMovies implements Spi {
 
     @Override
     public byte[] handleRequest(Request request) {
 
-        String directorValue = request.urlParams.get("director");
+        String key = getKey(request);
+        List<Movie> movies = new ArrayList<>();
 
-        List<Movie> movies = Functions.findMoviesByDirector(directorValue);
+        switch (key) {
+            case "id":
+                movies = (List<Movie>) Functions.findMovieById(Long.valueOf(request.urlParams.get("id")));
+                break;
+            case "director":
+                movies = Functions.findMoviesByDirector(request.urlParams.get("director"));
+                break;
+        }
+
 
         Gson gson = new Gson();
         String jsonStr = "";
 
-        if (!movies.isEmpty()){
+        if (!movies.isEmpty()) {
             jsonStr = gson.toJson(movies);
-        }else{
-            jsonStr = "Could not find movie with director=" + directorValue + "\r\n";
+        } else {
+            jsonStr = "Could not find movie\r\n";
         }
 
         byte[] data = jsonStr.getBytes(StandardCharsets.UTF_8);
@@ -49,5 +59,13 @@ public class FindMovieByDirector implements Spi {
             return headerAndData;
         } else
             return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
+    }
+
+    private String getKey(Request request) {
+        if (request.urlParams.containsKey("id")) return "id";
+        else if (request.urlParams.containsKey("director")) return "director";
+        else if (request.urlParams.containsKey("length")) return "length";
+        else if (request.urlParams.containsKey("releaseYear")) return "releaseYear";
+        else return "title";
     }
 }
