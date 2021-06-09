@@ -18,6 +18,7 @@ import static utils.Utils.addTwoByteArrays;
 public class GetFile implements Spi {
     @Override
     public byte[] handleRequest(Request request) {
+
         byte[] data = new byte[0];
         String header = "";
         File file;

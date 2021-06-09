@@ -9,26 +9,34 @@ import utils.HTTPType;
 import utils.Request;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import static utils.Utils.addTwoByteArrays;
 
-@Url("/findmoviebyid")
-public class FindMovieById implements Spi {
+@Url("/movies")
+public class FindMovies implements Spi {
 
     @Override
     public byte[] handleRequest(Request request) {
 
-        long idValue = Long.parseLong(request.urlParams.get("id"));
+        String key = getKey(request);
+        List<Movie> movies = switch (key) {
+            case "id" -> new ArrayList<>(List.of(Functions.findMovieById(Long.valueOf(request.urlParams.get("id")))));
+            case "director" -> Functions.findMoviesByDirector(request.urlParams.get("director"));
+            case "title" -> Functions.findMoviesByTitle(request.urlParams.get("title"));
+//            case
+            default -> new ArrayList<>();
+        };
 
-        Movie movie = Functions.findMovieById(idValue);
 
         Gson gson = new Gson();
         String jsonStr = "";
 
-        if (movie != null){
-            jsonStr = gson.toJson(movie);
-        }else{
-            jsonStr = "Could not find movie with id=" + idValue + "\r\n";
+        if (!movies.isEmpty()) {
+            jsonStr = gson.toJson(movies);
+        } else {
+            jsonStr = "Could not find movie\r\n";
         }
 
         byte[] data = jsonStr.getBytes(StandardCharsets.UTF_8);
@@ -50,4 +58,11 @@ public class FindMovieById implements Spi {
             return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
     }
 
+    private String getKey(Request request) {
+        if (request.urlParams.containsKey("id")) return "id";
+        else if (request.urlParams.containsKey("director")) return "director";
+        else if (request.urlParams.containsKey("length")) return "length";
+        else if (request.urlParams.containsKey("releaseYear")) return "releaseYear";
+        else return "title";
+    }
 }

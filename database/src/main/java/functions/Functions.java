@@ -39,4 +39,5 @@ public class Functions {
     public static List<Movie> findMoviesByYear(int year) {
         return movieDao.findMoviesByYear(year);
     }
+
 }
