@@ -33,12 +33,12 @@ public class Client {
                     menuChoice = false;
                     break;
                 case 1:
-                    talkToServer("GET /getallmovies HTTP/1.1\r\n", "");
+                    talkToServer("GET /movies HTTP/1.1\r\n", "");
                     break;
                 case 2:
                     String movieInformation = addMovie();
                     int contentLength = movieInformation.getBytes(StandardCharsets.UTF_8).length;
-                    talkToServer("POST /addmovie HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + contentLength + "\r\n\r\n", movieInformation);
+                    talkToServer("POST /movie HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + contentLength + "\r\n\r\n", movieInformation);
                     break;
                 case 3:
                     System.out.println("Movie id: ");

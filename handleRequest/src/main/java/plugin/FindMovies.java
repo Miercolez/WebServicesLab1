@@ -22,8 +22,15 @@ public class FindMovies implements Spi {
     @Override
     public Response handleRequest(Request request) {
 
+        Response response = new Response();
+
+        if(request.type == HTTPType.POST){
+            return  HttpStatus.status400();
+        }
+
+        response.type = request.type;
+
         String key = getKey(request);
-        System.out.println("hejsan1");
         List<Movie> movies = switch (key) {
             case "id" -> new ArrayList<>(List.of(Functions.findMovieById(Long.valueOf(request.urlParams.get("id")))));
             case "director" -> Functions.findMoviesByDirector(request.urlParams.get("director"));
@@ -34,7 +41,6 @@ public class FindMovies implements Spi {
             default -> new ArrayList<>();
         };
 
-        System.out.println("hejsan2");
         Gson gson = new Gson();
         String jsonStr = "";
 
@@ -45,22 +51,9 @@ public class FindMovies implements Spi {
         }
 
         //Byte Array for header
-        Response response = new Response();
         response.status = HttpStatus.status200();
         response.body = jsonStr.getBytes(StandardCharsets.UTF_8);
-        response.contentType = "application/json";
-        response.contentLength();
 
-
-//        if (request.type.equals(HTTPType.HEAD)) {
-////            return headerByte;
-//        } else if (request.type.equals(HTTPType.GET)) {
-//            System.out.println(headerAndData);
-////            return headerAndData;
-//        } else{
-//
-//        }
-//            return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);return new Response();
         return response;
     }
 
