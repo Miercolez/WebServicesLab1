@@ -4,35 +4,27 @@ import java.nio.charset.StandardCharsets;
 
 public class UtilsResponse {
 
-    public Byte[] parseHTTPResponse(Response response){
-        parseStatus(response.status);
+    public static byte[] parseHTTPResponse(Response response) {
+        StringBuilder headerSB = new StringBuilder();
 
-        StringBuilder returnObject = new StringBuilder();
-        returnObject.append(response.httpVersion)
+        headerSB.append(response.httpVersion)
                 .append(response.status);
-        if(!response.contentType.isEmpty() || response.contentType != null)
-            returnObject.append("\r\nContent-Type: ").append(response.contentType);
+        if (response.contentType != null)
+            headerSB.append("\r\nContent-Type: ")
+                    .append(response.contentType);
 
-        returnObject.append("\r\nContent-length: ").append(response.contentLength());
+        headerSB.append("\r\nContent-length: ")
+                .append(response.contentLength())
+                .append("\r\n\r\n");
 
-        byte[] returnByteObject = returnObject.toString().getBytes(StandardCharsets.UTF_8);
+        byte[] header = headerSB.toString().getBytes(StandardCharsets.UTF_8);
 
-        if(response.body != null)
-        returnByteObject
-    }
+        if (response.body != null)
+            return Utils.addTwoByteArrays(header, response.body);
+        else
+            return header;
 
-    public String parseStatus(String status){
-        switch (status){
-
-        }
-    }
-
-    public Response error404(Response response){
-        response.status = "404 Not Found\r\n";
-        response.contentLength();
-        return response;
     }
 
 
-    public
 }

@@ -31,6 +31,7 @@ public class Utils {
 
     private static String readHead(InputStream inputStream) throws IOException {
         StringBuilder head = new StringBuilder();
+
         while (true) {
             String line = readLine(inputStream);
             head.append(line);

@@ -58,8 +58,11 @@ public class FindMovies implements Spi {
         } else if (request.type.equals(HTTPType.GET)) {
             System.out.println(headerAndData);
 //            return headerAndData;
-        } else
-//            return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
+        } else{
+
+        }
+//            return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);return new Response();
+        return new Response();
     }
 
     private String getKey(Request request) {

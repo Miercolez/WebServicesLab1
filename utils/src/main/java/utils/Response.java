@@ -4,7 +4,7 @@ public class Response {
     public final String httpVersion = "HTTP/1.1 ";
     public String status;
     public String contentType;
-    public Byte[] body;
+    public byte[] body;
     public final String beforeContentLength = "Content-length: ";
     public String contentLength(){
         try {
