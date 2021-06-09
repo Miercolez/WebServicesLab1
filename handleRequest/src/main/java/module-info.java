@@ -6,5 +6,4 @@ module handleRequest {
     requires database;
     requires com.google.gson;
     provides spi.Spi with GetAllMovies, AddMovie, FindMovies, FindMovieByLength, FindMovieByReleaseYear, GetFile, Default;
-
 }
