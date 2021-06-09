@@ -5,6 +5,7 @@ import spi.Url;
 import utils.Request;
 import utils.Response;
 import utils.Utils;
+import utils.UtilsResponse;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -41,7 +42,8 @@ public class Main {
             System.out.println("Request url: " + request.url); //TODO <------ Ta bort
 
             var outputToClient = client.getOutputStream();
-            outputToClient.write(getResponseData(request));
+            outputToClient.write(UtilsResponse.parseHTTPResponse(getResponseData(request)));
+            System.out.println("hejsan4");
             outputToClient.flush();
 
             inputFromClient.close();
@@ -55,14 +57,18 @@ public class Main {
     private static Response getResponseData(Request request) {
         ServiceLoader<Spi> responses = ServiceLoader.load(Spi.class);
 
-        Response response = httpResponse404();
+        Response response2 = new Response();
+        response2.status = "404 Not found";
+
         for (Spi response : responses) {
             Url annotation = response.getClass().getAnnotation(Url.class);
             if (annotation != null && annotation.value().equals(request.url)) {
-                responseData = response.handleRequest(request);
+                response2 = response.handleRequest(request);
+                System.out.println("Hejsan2");
             }
         }
-        return responseData;
+        System.out.println("Hejsan3");
+        return response2;
     }
 
     private static byte[] httpResponse404() {

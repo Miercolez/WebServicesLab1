@@ -11,8 +11,10 @@ public class Default implements Spi {
     @Override
     public Response handleRequest(Request request) {
 
+        System.out.println("Hejsan");
+        Response response = new Response();
+        response.status = "200 OK";
 
-
-        return null;
+        return response;
     }
 }
