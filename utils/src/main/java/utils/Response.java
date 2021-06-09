@@ -1,6 +1,7 @@
 package utils;
 
 public class Response {
+    public HTTPType type;
     public final String httpVersion = "HTTP/1.1 ";
     public String status;
     public String contentType;

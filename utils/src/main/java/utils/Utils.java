@@ -1,10 +1,12 @@
 package utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,5 +131,19 @@ public class Utils {
                 .put(headerByte)
                 .put(data)
                 .array();
+    }
+
+    public static String getContentType(File file){
+        String contentType = null;
+        try {
+            contentType = Files.probeContentType(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (contentType != null){
+            return contentType;
+        }else {
+            return "application/javascript";
+        }
     }
 }

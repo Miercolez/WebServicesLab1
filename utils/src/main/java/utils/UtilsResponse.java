@@ -19,7 +19,7 @@ public class UtilsResponse {
 
         byte[] header = headerSB.toString().getBytes(StandardCharsets.UTF_8);
 
-        if (response.body != null)
+        if (response.body != null && response.type.equals(HTTPType.GET))
             return Utils.addTwoByteArrays(header, response.body);
         else
             return header;
