@@ -3,6 +3,7 @@ package consumer;
 import spi.Spi;
 import spi.Url;
 import utils.Request;
+import utils.Response;
 import utils.Utils;
 
 import java.io.*;
@@ -51,10 +52,10 @@ public class Main {
         }
     }
 
-    private static byte[] getResponseData(Request request) {
+    private static Response getResponseData(Request request) {
         ServiceLoader<Spi> responses = ServiceLoader.load(Spi.class);
 
-        byte[] responseData = httpResponse404();
+        Response response = httpResponse404();
         for (Spi response : responses) {
             Url annotation = response.getClass().getAnnotation(Url.class);
             if (annotation != null && annotation.value().equals(request.url)) {

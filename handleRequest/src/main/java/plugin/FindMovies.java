@@ -7,6 +7,7 @@ import spi.Spi;
 import spi.Url;
 import utils.HTTPType;
 import utils.Request;
+import utils.Response;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -18,14 +19,16 @@ import static utils.Utils.addTwoByteArrays;
 public class FindMovies implements Spi {
 
     @Override
-    public byte[] handleRequest(Request request) {
+    public Response handleRequest(Request request) {
+        Response response = new Response();
 
         String key = getKey(request);
         List<Movie> movies = switch (key) {
             case "id" -> new ArrayList<>(List.of(Functions.findMovieById(Long.valueOf(request.urlParams.get("id")))));
             case "director" -> Functions.findMoviesByDirector(request.urlParams.get("director"));
             case "title" -> Functions.findMoviesByTitle(request.urlParams.get("title"));
-//            case
+            case "length" -> Functions.findMoviesByLength(Integer.parseInt(request.urlParams.get("length")));
+            case "releaseYear" -> Functions.findMoviesByYear(Integer.parseInt(request.urlParams.get("releaseYear")));
             default -> new ArrayList<>();
         };
 
@@ -42,6 +45,7 @@ public class FindMovies implements Spi {
         byte[] data = jsonStr.getBytes(StandardCharsets.UTF_8);
 
         //Byte Array for header
+        response.status = "200";
         String header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-length: " + data.length + "\r\n\r\n";
         byte[] headerByte = header.getBytes(StandardCharsets.UTF_8);
 
@@ -50,12 +54,12 @@ public class FindMovies implements Spi {
         System.out.println(header);
 
         if (request.type.equals(HTTPType.HEAD)) {
-            return headerByte;
+//            return headerByte;
         } else if (request.type.equals(HTTPType.GET)) {
             System.out.println(headerAndData);
-            return headerAndData;
+//            return headerAndData;
         } else
-            return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
+//            return "HTTP/1.1 400 Bad Request\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
     }
 
     private String getKey(Request request) {
