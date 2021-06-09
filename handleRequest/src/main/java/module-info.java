@@ -5,6 +5,6 @@ module handleRequest {
     requires utils;
     requires database;
     requires com.google.gson;
-    provides spi.Spi with GetAllMovies, AddMovie, FindMovieById, FindMovieByTitle, FindMovies, FindMovieByLength, FindMovieByReleaseYear, GetFile;
+    provides spi.Spi with GetAllMovies, AddMovie, FindMovies, FindMovieByLength, FindMovieByReleaseYear, GetFile, Default;
 
 }

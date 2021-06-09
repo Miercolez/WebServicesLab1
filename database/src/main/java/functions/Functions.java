@@ -40,7 +40,4 @@ public class Functions {
         return movieDao.findMoviesByYear(year);
     }
 
-    public static void addMovieByObjekts(String hejsan, int i, String hejsa, int i1) {
-        movieDao.addMovieByObjekts(hejsan, i, hejsa, i1);
-    }
 }

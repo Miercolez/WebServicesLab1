@@ -14,23 +14,20 @@ import java.util.List;
 
 import static utils.Utils.addTwoByteArrays;
 
-@Url("/findmovie")
+@Url("/movies")
 public class FindMovies implements Spi {
 
     @Override
     public byte[] handleRequest(Request request) {
 
         String key = getKey(request);
-        List<Movie> movies = new ArrayList<>();
-
-        switch (key) {
-            case "id":
-                movies = (List<Movie>) Functions.findMovieById(Long.valueOf(request.urlParams.get("id")));
-                break;
-            case "director":
-                movies = Functions.findMoviesByDirector(request.urlParams.get("director"));
-                break;
-        }
+        List<Movie> movies = switch (key) {
+            case "id" -> new ArrayList<>(List.of(Functions.findMovieById(Long.valueOf(request.urlParams.get("id")))));
+            case "director" -> Functions.findMoviesByDirector(request.urlParams.get("director"));
+            case "title" -> Functions.findMoviesByTitle(request.urlParams.get("title"));
+//            case
+            default -> new ArrayList<>();
+        };
 
 
         Gson gson = new Gson();

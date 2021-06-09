@@ -43,27 +43,27 @@ public class Client {
                 case 3:
                     System.out.println("Movie id: ");
                     String movieId = sc.nextLine();
-                    talkToServer("GET /findMovieById HTTP/1.1\r\n\r\n", movieId);
+                    talkToServer("GET /movies?id="+movieId+" HTTP/1.1\r\n\r\n", "");
                     break;
                 case 4:
                     System.out.println("Movie title: ");
                     String movieTitle = sc.nextLine();
-                    talkToServer("GET /findMovieByTitle HTTP/1.1\r\n\r\n", movieTitle);
+                    talkToServer("GET /movies?title=" + movieTitle +" HTTP/1.1\r\n\r\n", "");
                     break;
                 case 5:
                     System.out.println("Movie length: ");
                     String movieLength = sc.nextLine();
-                    talkToServer("GET /findMovieByLength HTTP/1.1\r\n\r\n", movieLength);
+                    talkToServer("GET /movies?length="+movieLength+" HTTP/1.1\r\n\r\n", "");
                     break;
                 case 6:
                     System.out.println("Director: ");
                     String director = sc.nextLine();
-                    talkToServer("GET /findMovieByDirector HTTP/1.1\r\n", director);
+                    talkToServer("GET /movies?director="+director+" HTTP/1.1\r\n", "");
                     break;
                 case 7:
                     System.out.println("Movie release year: ");
-                    String movieReleaseYear = sc.nextLine();
-                    talkToServer("GET /findMovieByReleaseYear HTTP/1.1\r\n", movieReleaseYear);
+                    String releaseYear = sc.nextLine();
+                    talkToServer("GET /movies?releaseYear="+releaseYear+" HTTP/1.1\r\n", "");
                     break;
             }
         }
@@ -90,7 +90,7 @@ public class Client {
 
     public static void talkToServer(String header, String body) {
         try {
-            Socket socket = new Socket("localhost", 5050);
+            Socket socket = new Socket("localhost", 5051);
 
             var output = new PrintWriter(socket.getOutputStream());
             output.print(header);
