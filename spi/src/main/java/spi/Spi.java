@@ -1,12 +1,12 @@
 package spi;
 
 import utils.Request;
-
-import java.io.OutputStream;
+import utils.Response;
 
 @Url
 public interface Spi {
 
-    byte[] handleRequest(Request request);
+    Response handleRequest(Request request);
+
 
 }

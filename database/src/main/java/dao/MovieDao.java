@@ -5,8 +5,6 @@ import entity.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
-
 import java.util.List;
 
 public class MovieDao {
@@ -14,7 +12,7 @@ public class MovieDao {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
 
     public void addMoviePackToDatabase() {
-        List<Movie> movies = List.of(
+        @SuppressWarnings("SpellCheckingInspection") List<Movie> movies = List.of(
                 new Movie("Sagan om ringen", 165, "Peter jackson", 2001),
                 new Movie("Pulp Fiction", 174, "Quentin Tarantino", 1994),
                 new Movie("Forest Gump", 165, "Robert Zemeckis", 1994),
@@ -64,14 +62,14 @@ public class MovieDao {
         return movies;
     }
 
-    public Movie findMovieById(Long id) {
+    public List<Movie> findMovieById(Long id) {
         EntityManager em = emf.createEntityManager();
 
-        Movie movie = em.find(Movie.class, id);
+        List<Movie> movies = em.createQuery("SELECT m FROM Movie m WHERE m.id=:id", Movie.class).setParameter("id", id).getResultList();
 
         em.close();
 
-        return movie;
+        return movies;
     }
 
     public List<Movie> findMoviesByYear(int releaseYear) {

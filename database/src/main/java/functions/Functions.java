@@ -20,7 +20,7 @@ public class Functions {
         return movieDao.getAllMovies();
     }
 
-    public static Movie findMovieById(Long id) {
+    public static List<Movie> findMovieById(Long id) {
         return movieDao.findMovieById(id);
     }
 

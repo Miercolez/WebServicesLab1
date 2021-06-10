@@ -3,18 +3,17 @@ package plugin;
 import functions.Functions;
 import spi.Spi;
 import spi.Url;
+import utils.HttpStatus;
 import utils.Request;
-
-import java.nio.charset.StandardCharsets;
+import utils.Response;
 
 @Url("/load_db")
 public class LoadDB implements Spi {
     @Override
-    public byte[] handleRequest(Request request) {
-
+    public Response handleRequest(Request request) {
+        Response response = new Response();
         Functions.addMoviePackToDatabase();
-        String header = "HTTP/1.1 200 OK\r\n\r\n";
-        byte[] headerByte = header.getBytes(StandardCharsets.UTF_8);
-        return headerByte;
+        response.status = HttpStatus.status200();
+        return response;
     }
 }

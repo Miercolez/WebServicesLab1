@@ -2,19 +2,18 @@ package consumer;
 
 import spi.Spi;
 import spi.Url;
-import utils.Request;
-import utils.Utils;
+import utils.*;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
 
+    @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -37,10 +36,10 @@ public class Main {
 
             Request request = Utils.parseHttpRequest(inputFromClient);
 
-            System.out.println("Request url: " + request.url); //TODO <------ Ta bort
+            System.out.println("Request url: " + request.url);
 
             var outputToClient = client.getOutputStream();
-            outputToClient.write(getResponseData(request));
+            outputToClient.write(UtilsResponse.parseHTTPResponse(getResponseData(request)));
             outputToClient.flush();
 
             inputFromClient.close();
@@ -51,22 +50,20 @@ public class Main {
         }
     }
 
-    private static byte[] getResponseData(Request request) {
+    private static Response getResponseData(Request request) {
         ServiceLoader<Spi> responses = ServiceLoader.load(Spi.class);
 
-        byte[] responseData = httpResponse404();
-        for (Spi response : responses) {
-            Url annotation = response.getClass().getAnnotation(Url.class);
+        Response response = HttpStatus.status404();
+
+        for (Spi resp : responses) {
+            Url annotation = resp.getClass().getAnnotation(Url.class);
             if (annotation != null && annotation.value().equals(request.url)) {
-                responseData = response.handleRequest(request);
+                response = resp.handleRequest(request);
             }
         }
-        return responseData;
+        return response;
     }
 
-    private static byte[] httpResponse404() {
-        return "HTTP/1.1 404 Not Found\r\nContent-length: 0\r\n\r\n".getBytes(StandardCharsets.UTF_8);
-    }
 
 }
 

@@ -2,17 +2,14 @@ package plugin;
 
 import spi.Spi;
 import spi.Url;
-import utils.Request;
+import utils.*;
 
-@Url("/")
+
+@Url(value ="/")
 public class Default implements Spi {
 
-
     @Override
-    public byte[] handleRequest(Request request) {
-
-
-
-        return new byte[0];
+    public Response handleRequest(Request request) {
+        return new Index().handleRequest(request);
     }
 }
