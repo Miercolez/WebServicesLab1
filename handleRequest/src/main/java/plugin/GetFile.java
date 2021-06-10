@@ -3,15 +3,10 @@ package plugin;
 import spi.Spi;
 import spi.Url;
 import utils.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static utils.Utils.addTwoByteArrays;
 
 @Url("/files")
 public class GetFile implements Spi {

@@ -9,12 +9,9 @@ import utils.HTTPType;
 import utils.HttpStatus;
 import utils.Request;
 import utils.Response;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import static utils.Utils.addTwoByteArrays;
 
 @Url("/movies")
 public class FindMovies implements Spi {

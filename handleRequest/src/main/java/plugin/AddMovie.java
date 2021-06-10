@@ -9,9 +9,7 @@ import utils.HTTPType;
 import utils.HttpStatus;
 import utils.Request;
 import utils.Response;
-
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @Url("/movie")
 public class AddMovie implements Spi {

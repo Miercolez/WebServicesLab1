@@ -1,14 +1,11 @@
 package plugin;
 
-import com.google.gson.Gson;
 import spi.Spi;
 import spi.Url;
 import utils.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Url(value ="/")
@@ -25,7 +22,7 @@ public class Default implements Spi {
 
         response.type = request.type;
 
-        File file = Path.of("/web/files", "movie.html").toFile();
+        File file = Path.of("/web/files", "index.html").toFile();
 
         response.status = HttpStatus.status200();
 
