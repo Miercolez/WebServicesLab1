@@ -9,7 +9,9 @@ import utils.HTTPType;
 import utils.HttpStatus;
 import utils.Request;
 import utils.Response;
+
 import java.nio.charset.StandardCharsets;
+
 
 @Url("/movie")
 public class AddMovie implements Spi {
@@ -19,10 +21,9 @@ public class AddMovie implements Spi {
 
         Response response = new Response();
 
-        if(request.type != HTTPType.POST){
-            return  HttpStatus.status400();
+        if (request.type != HTTPType.POST) {
+            return HttpStatus.status400();
         }
-
         response.type = request.type;
 
         Gson gson = new Gson();

@@ -9,6 +9,7 @@ import utils.HTTPType;
 import utils.HttpStatus;
 import utils.Request;
 import utils.Response;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +19,16 @@ public class FindMovies implements Spi {
 
     @Override
     public Response handleRequest(Request request) {
-
+        System.out.println(request.urlParams.get(getKey(request)));
         Response response = new Response();
 
-        if(request.type == HTTPType.POST){
-            return  HttpStatus.status400();
+        if (request.type == HTTPType.POST) {
+            return HttpStatus.status400();
         }
 
         response.type = request.type;
-
-        List<Movie> movies = getMovies(request);
+        List<Movie> movies;
+        movies = getMovies(request);
 
         Gson gson = new Gson();
         if (!movies.isEmpty()) {
@@ -44,7 +45,7 @@ public class FindMovies implements Spi {
         return response;
     }
 
-    private List<Movie> getMovies(Request request) {
+    private List<Movie> getMovies(Request request) throws NumberFormatException {
         String key = getKey(request);
 
         return switch (key) {

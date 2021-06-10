@@ -54,13 +54,26 @@ public class Main {
         ServiceLoader<Spi> responses = ServiceLoader.load(Spi.class);
 
         Response response = HttpStatus.status404();
-
-        for (Spi resp : responses) {
-            Url annotation = resp.getClass().getAnnotation(Url.class);
-            if (annotation != null && annotation.value().equals(request.url)) {
-                response = resp.handleRequest(request);
+        try {
+            for (Spi resp : responses) {
+                Url annotation = resp.getClass().getAnnotation(Url.class);
+                if (annotation != null && annotation.value().equals(request.url)) {
+                    response = resp.handleRequest(request);
+                }
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            response = HttpStatus.status500();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response = HttpStatus.status400();
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = HttpStatus.status500();
         }
+
+
         return response;
     }
 

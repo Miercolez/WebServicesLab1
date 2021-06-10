@@ -3,6 +3,7 @@ package plugin;
 import spi.Spi;
 import spi.Url;
 import utils.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.nio.file.Path;
 @Url("/files")
 public class GetFile implements Spi {
     @Override
-    public Response handleRequest(Request request) {
+    public Response handleRequest(Request request) throws IOException {
 
         Response response = new Response();
 
@@ -39,17 +40,14 @@ public class GetFile implements Spi {
         }
     }
 
-    private Response bodyFromFile(Response response, File file) {
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            byte[] body = new byte[(int) file.length()];
-            fileInputStream.read(body);
-            response.contentType = Utils.getContentType(file);
-            response.body = body;
-            response.status = HttpStatus.status200();
-            return response;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return HttpStatus.status500();
-        }
+    private Response bodyFromFile(Response response, File file) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        byte[] body = new byte[(int) file.length()];
+        fileInputStream.read(body);
+        response.contentType = Utils.getContentType(file);
+        response.body = body;
+        response.status = HttpStatus.status200();
+        return response;
+
     }
 }

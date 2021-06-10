@@ -23,11 +23,7 @@ public class Utils {
 
         request.body = readBody(inputStream, request.contentLength);
 
-        try {
-            request.urlParams = parseUrlParams(head);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        request.urlParams = parseUrlParams(head);
 
         return request;
     }
@@ -73,22 +69,20 @@ public class Utils {
     }
 
 
-    private static Map<String, String> parseUrlParams(String input) throws Exception {
-
+    private static Map<String, String> parseUrlParams(String input) {
+        Map<String, String> ans = new HashMap<>();
         String[] words = input.split(" ");
 
-        if (!words[1].contains("?")) throw new Exception();
+        if (!words[1].contains("?")) return ans;
 
         String[] url = words[1].split("\\?");
         String[] params = url[1].split("&");
 
-        Map<String, String> ans = new HashMap<>();
         for (String str : params) {
-            str = replaceUrlEncoding(str);
             String[] param = str.split("=");
-            ans.put(param[0], param[1]);
+            ans.put(replaceUrlEncoding(param[0]), replaceUrlEncoding(param[1]));
         }
-
+        System.out.println("params fin");
         return ans;
     }
 
@@ -110,12 +104,8 @@ public class Utils {
     }
 
     private static String replaceUrlEncoding(String encodedString) {
-        try {
-            return URLDecoder.decode(encodedString, StandardCharsets.UTF_8);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return encodedString;
-        }
+
+        return URLDecoder.decode(encodedString, StandardCharsets.UTF_8);
     }
 
     public static byte[] addTwoByteArrays(byte[] headerByte, byte[] data) {
@@ -125,7 +115,7 @@ public class Utils {
                 .array();
     }
 
-    public static String getContentType(File file){
+    public static String getContentType(File file) {
         String contentType = null;
         try {
             contentType = Files.probeContentType(file.toPath());
