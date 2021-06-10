@@ -27,31 +27,35 @@ public class FindMovies implements Spi {
 
         response.type = request.type;
 
+        List<Movie> movies = getMovies(request);
+
+        Gson gson = new Gson();
+        if (!movies.isEmpty()) {
+            String jsonStr = gson.toJson(movies);
+            response.body = jsonStr.getBytes(StandardCharsets.UTF_8);
+            response.contentType = "application/json";
+        } else {
+            response.body = "Could not find movie\r\n".getBytes(StandardCharsets.UTF_8);
+            response.contentType = "text/plain";
+        }
+
+        response.status = HttpStatus.status200();
+
+        return response;
+    }
+
+    private List<Movie> getMovies(Request request) {
         String key = getKey(request);
-        List<Movie> movies = switch (key) {
-            case "id" -> new ArrayList<>(List.of(Functions.findMovieById(Long.valueOf(request.urlParams.get("id")))));
-            case "director" -> Functions.findMoviesByDirector(request.urlParams.get("director"));
+
+        return switch (key) {
+            case "id" -> Functions.findMovieById(Long.valueOf(request.urlParams.get("id")));
             case "title" -> Functions.findMoviesByTitle(request.urlParams.get("title"));
+            case "director" -> Functions.findMoviesByDirector(request.urlParams.get("director"));
             case "length" -> Functions.findMoviesByLength(Integer.parseInt(request.urlParams.get("length")));
             case "releaseYear" -> Functions.findMoviesByYear(Integer.parseInt(request.urlParams.get("releaseYear")));
             case "" -> Functions.getAllMovies();
             default -> new ArrayList<>();
         };
-
-        Gson gson = new Gson();
-        String jsonStr = "";
-
-        if (!movies.isEmpty()) {
-            jsonStr = gson.toJson(movies);
-        } else {
-            jsonStr = "Could not find movie\r\n";
-        }
-
-        //Byte Array for header
-        response.status = HttpStatus.status200();
-        response.body = jsonStr.getBytes(StandardCharsets.UTF_8);
-
-        return response;
     }
 
     private String getKey(Request request) {

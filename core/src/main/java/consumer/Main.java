@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 
 public class Main {
 
+    @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -35,7 +36,7 @@ public class Main {
 
             Request request = Utils.parseHttpRequest(inputFromClient);
 
-            System.out.println("Request url: " + request.url); //TODO <------ Ta bort
+            System.out.println("Request url: " + request.url);
 
             var outputToClient = client.getOutputStream();
             outputToClient.write(UtilsResponse.parseHTTPResponse(getResponseData(request)));

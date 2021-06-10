@@ -1,8 +1,5 @@
 package utils;
 
-import utils.HTTPType;
-import utils.Response;
-
 public class HttpStatus {
     public static String status200() {
         return "200 OK";

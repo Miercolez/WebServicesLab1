@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Utils {
 
@@ -79,7 +80,7 @@ public class Utils {
         if (!words[1].contains("?")) throw new Exception();
 
         String[] url = words[1].split("\\?");
-        String[] params = url[1].split("\\&");
+        String[] params = url[1].split("&");
 
         Map<String, String> ans = new HashMap<>();
         for (String str : params) {
@@ -108,15 +109,6 @@ public class Utils {
         throw new RuntimeException("Invalid type");
     }
 
-    //Example of switch expressions to handle all possible enum cases without needing default case.
-//    public static String handleRequest(Request request) {
-//        return switch (request.type) {
-//            case GET -> "GET";
-//            case HEAD -> "HEAD";
-//            case POST -> "POST";
-//        };
-//    }
-
     private static String replaceUrlEncoding(String encodedString) {
         try {
             return URLDecoder.decode(encodedString, StandardCharsets.UTF_8);
@@ -140,10 +132,6 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (contentType != null){
-            return contentType;
-        }else {
-            return "application/javascript";
-        }
+        return Objects.requireNonNullElse(contentType, "application/javascript");
     }
 }

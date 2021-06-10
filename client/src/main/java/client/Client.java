@@ -27,43 +27,41 @@ public class Client {
             int choice = sc.nextInt();
             sc.nextLine();
             switch (choice) {
-                case 0:
+                case 0 -> {
                     System.out.println("Thank you, come again.");
                     menuChoice = false;
-                    break;
-                case 1:
-                    talkToServer("GET /movies HTTP/1.1\r\n", "");
-                    break;
-                case 2:
+                }
+                case 1 -> talkToServer("GET /movies HTTP/1.1\r\n", "");
+                case 2 -> {
                     String movieInformation = addMovie();
                     int contentLength = movieInformation.getBytes(StandardCharsets.UTF_8).length;
                     talkToServer("POST /movie HTTP/1.1\r\nContent-Type: application/json\r\nContent-Length: " + contentLength + "\r\n\r\n", movieInformation);
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println("Movie id: ");
                     String movieId = sc.nextLine();
-                    talkToServer("GET /movies?id="+movieId+" HTTP/1.1\r\n\r\n", "");
-                    break;
-                case 4:
+                    talkToServer("GET /movies?id=" + movieId + " HTTP/1.1\r\n\r\n", "");
+                }
+                case 4 -> {
                     System.out.println("Movie title: ");
                     String movieTitle = sc.nextLine();
-                    talkToServer("GET /movies?title=" + movieTitle +" HTTP/1.1\r\n\r\n", "");
-                    break;
-                case 5:
+                    talkToServer("GET /movies?title=" + movieTitle + " HTTP/1.1\r\n\r\n", "");
+                }
+                case 5 -> {
                     System.out.println("Movie length: ");
                     String movieLength = sc.nextLine();
-                    talkToServer("GET /movies?length="+movieLength+" HTTP/1.1\r\n\r\n", "");
-                    break;
-                case 6:
+                    talkToServer("GET /movies?length=" + movieLength + " HTTP/1.1\r\n\r\n", "");
+                }
+                case 6 -> {
                     System.out.println("Director: ");
                     String director = sc.nextLine();
-                    talkToServer("GET /movies?director="+director+" HTTP/1.1\r\n", "");
-                    break;
-                case 7:
+                    talkToServer("GET /movies?director=" + director + " HTTP/1.1\r\n", "");
+                }
+                case 7 -> {
                     System.out.println("Movie release year: ");
                     String releaseYear = sc.nextLine();
-                    talkToServer("GET /movies?releaseYear="+releaseYear+" HTTP/1.1\r\n", "");
-                    break;
+                    talkToServer("GET /movies?releaseYear=" + releaseYear + " HTTP/1.1\r\n", "");
+                }
             }
         }
 
@@ -99,13 +97,13 @@ public class Client {
 
             var inputFromServer = new BufferedReader(new InputStreamReader((socket.getInputStream())));
 
-            boolean heade = true;
+            boolean twoEmptyRowsInHeader = true;
             while (true) {
                 var line = inputFromServer.readLine();
 
                 if (line == null || line.isEmpty()) {
-                    if (heade) {
-                        heade = false;
+                    if (twoEmptyRowsInHeader) {
+                        twoEmptyRowsInHeader = false;
                     } else {
                         break;
                     }

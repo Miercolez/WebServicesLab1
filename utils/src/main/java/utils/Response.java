@@ -6,7 +6,6 @@ public class Response {
     public String status;
     public String contentType;
     public byte[] body;
-    public final String beforeContentLength = "Content-length: ";
     public String contentLength(){
         try {
             return String.valueOf(body.length);
